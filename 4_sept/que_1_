@@ -1,0 +1,22 @@
+class Solution {
+    static int numProvinces(ArrayList<ArrayList<Integer>> adj, int V) {
+        boolean[] vis = new boolean[V];
+        int count = 0;
+        for (int i = 0; i < V; i++) {
+            if (!vis[i]) {
+                count++;
+                dfs(adj, vis, i, V);
+            }
+        }
+        return count;
+    }
+    static void dfs(ArrayList<ArrayList<Integer>> adj, boolean[] vis, int node, int V) {
+        vis[node] = true;
+        // Iterate through all vertices
+        for (int neighbor = 0; neighbor < V; neighbor++) {
+            if (adj.get(node).get(neighbor) == 1 && !vis[neighbor]) {
+                dfs(adj, vis, neighbor, V);
+            }
+        }
+    }
+}

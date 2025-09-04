@@ -1,0 +1,39 @@
+class Solution
+{
+    public int minimumCostPath(int[][] grid)
+    {
+        
+        Queue<Integer> a=new LinkedList<>();
+        Queue<Integer> b=new LinkedList<>();
+        int dp[][]=new int[grid.length][grid[0].length];
+        for(int i[]:dp) Arrays.fill(i,10000000);
+        
+        dp[0][0]=grid[0][0];
+        a.add(0);
+        b.add(0);
+
+             while(a.size()>0){
+                 int i=a.poll();
+                 int j=b.poll();
+                 if(check(i,j-1,grid) && dp[i][j-1]>dp[i][j]+grid[i][j-1]){dp[i][j-1]=dp[i][j]+grid[i][j-1];a.add(i);b.add(j-1);}
+                  if(check(i,j+1,grid) && dp[i][j+1]>dp[i][j]+grid[i][j+1]){dp[i][j+1]=dp[i][j]+grid[i][j+1];a.add(i);b.add(j+1);}
+                   if(check(i-1,j,grid) && dp[i-1][j]>dp[i][j]+grid[i-1][j]){dp[i-1][j]=dp[i][j]+grid[i-1][j];a.add(i-1);b.add(j);}
+                    if(check(i+1,j,grid) && dp[i+1][j]>dp[i][j]+grid[i+1][j]){dp[i+1][j]=dp[i][j]+grid[i+1][j];a.add(i+1);b.add(j);}
+                 
+                 
+             }
+             
+             return dp[grid.length-1][grid[0].length-1];
+        
+            
+        }
+        
+        
+
+    boolean check(int i,int j,int [][]grid){
+        if(i<0 || i>=grid.length || j<0 || j>=grid[0].length) return false;
+        return true;
+    }
+    
+ 
+}
