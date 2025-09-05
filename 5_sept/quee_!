@@ -1,0 +1,53 @@
+class Pair{
+    int r;
+    int c;
+    int d;
+    Pair(int r, int c,int d){
+        this.r=r;
+        this.c=c;
+        this.d=d;
+    }
+}
+class Solution {
+    // Function to find distance of nearest 1 in the grid for each cell.
+    public void bfs( Queue<Pair> q,int[][] vis,int[][] grid, int[][] ans){
+        int[] drow={-1,0,1,0};
+        int[] dcol={0,-1,0,1};
+        int n=grid.length,m=grid[0].length;
+        while(!q.isEmpty()){
+            int row=q.peek().r;
+            int col=q.peek().c;
+            int diff=q.peek().d;
+            q.remove();
+            for(int i=0;i<4;i++){
+                int nrow=row+drow[i];
+                int ncol=col+dcol[i];
+                if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && vis[nrow][ncol]==0 && grid[nrow][ncol]!=1){
+                    int newdiff=diff+1;
+                    q.add(new Pair(nrow,ncol,newdiff));
+                    vis[nrow][ncol]=1;
+                    ans[nrow][ncol]=newdiff;
+                }
+            }
+        }
+    }
+    public int[][] nearest(int[][] grid) {
+        // Code here
+        int n=grid.length,m=grid[0].length;
+        int[][] ans=new int[n][m];
+        int[][] vis=new int[n][m];
+        Queue<Pair> q=new LinkedList<>();
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j]==1){
+                    q.add(new Pair(i,j,0));
+                    vis[i][j]=1;
+                    ans[i][j]=0;
+                }
+            }
+        }
+        bfs(q,vis,grid,ans);
+        return ans;
+    }
+    
+}

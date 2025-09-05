@@ -1,0 +1,40 @@
+class Solution {
+    static int[][] dirs = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+    int shortestPath(int[][] grid, int[] source, int[] destination) {
+        // Your code here
+        int n = grid.length;
+        int m = grid[0].length;
+        Queue<int[]> q = new ArrayDeque<>();
+        
+        var vis = new boolean[n][m];
+        
+        int sr = source[0], sc = source[1];
+        int dr = destination[0], dc = destination[1];
+        
+        vis[sr][sc] = true;
+        q.offer (new int[] {sr, sc, 0});
+        
+        int time = 0;
+        while (!q.isEmpty()) {
+            int r = q.peek()[0];
+            int c = q.peek()[1];
+            int t = q.peek()[2];
+            q.poll();
+            
+            time = Math.max(time, t);
+            
+            if (r == dr && c == dc)
+                return time;
+            for (int[] dir : dirs) {
+                int nr = r + dir[0];
+                int nc = c + dir[1];
+                
+                if (nr >= 0 && nr < n && nc >= 0 && nc < m && !vis[nr][nc] && grid[nr][nc] == 1) {
+                    vis[nr][nc] = true;
+                    q.offer (new int[] {nr, nc, t + 1});
+                }
+            }
+        }
+        return -1;
+    }
+}
